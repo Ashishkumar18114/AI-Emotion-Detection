@@ -1,3 +1,4 @@
+import traceback
 import io
 import os
 import tempfile
@@ -44,7 +45,7 @@ def process_pil(img: Image.Image):
         return results
 
     for idx_face, box in enumerate(boxes):
-        face = img.crop(box)
+        face = img.crop(tuple(int(v) for v in box))
         tensor = preprocess(face).unsqueeze(0).to(DEVICE)
 
         with torch.no_grad():
@@ -104,6 +105,7 @@ def detect_emotion():
             }), 400
 
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/upload', methods=['POST'])
@@ -117,6 +119,7 @@ def upload_image():
         expressions = process_pil(img)
         return jsonify({"expressions": expressions}), 200
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/predict_url', methods=['POST'])
@@ -150,6 +153,7 @@ def predict_camera():
         expressions = process_camera_frame(frame)
         return jsonify({"expressions": expressions}), 200
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/', methods=['GET'])

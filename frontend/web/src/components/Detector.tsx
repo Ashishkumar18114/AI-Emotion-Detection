@@ -102,7 +102,7 @@ export function Detector({ sectionRef }: Props) {
   function reset() { requestRef.current++; setBusy(false); discardImage() }
   const confidence = result?.confidence === undefined ? null : Math.max(0, Math.min(100, Math.round(result.confidence * 100)))
   return <section id="studio" ref={sectionRef} className="studio-section"><div className="container">
-    <div className="studio-heading"><div><p className="section-kicker"><span className="live-dot"/> INTERACTIVE WORKSPACE</p><h2>Detection <span>studio.</span></h2><p>Choose an input, analyze an expression, and see what the model predicts.</p></div><span className="studio-version">EMOTIQ / V1.0</span></div>
+    <div className="studio-heading"><div><p className="section-kicker"><span className="live-dot"/> COMPUTER VISION WORKSPACE</p><h2>Analysis <span>workspace.</span></h2><p>Choose an input, analyze an expression, and see what the model predicts.</p></div><span className="studio-version">AI EMOTION DETECTION / V1.0</span></div>
     <div className="studio-grid">
       <div className="studio-panel input-panel">
         <div className="panel-header"><div><span className="panel-index">01 / INPUT</span><h3>Image source</h3></div><span className="panel-status"><span className="live-dot"/> READY</span></div>
@@ -120,13 +120,13 @@ export function Detector({ sectionRef }: Props) {
           {mode === 'camera' && (!streaming ? <button className="btn btn-outline" onClick={startCamera}>◎ Start camera</button> : <><button className="btn btn-outline" onClick={capture}>◉ Capture frame</button><button className="btn btn-quiet" onClick={stopCamera}>Stop camera</button></>)}
           {image && <button className="btn btn-quiet" onClick={reset}>Clear image</button>}
         </div>
-        <button className="btn btn-primary analyze-btn" disabled={!image || busy} onClick={analyze}>{busy ? <><span className="spinner"/> Analyzing image...</> : <>✦ &nbsp; Analyze expression <span aria-hidden>↗</span></>}</button>
+        <button className="btn btn-primary analyze-btn" disabled={!image || busy} onClick={analyze}>{busy ? <><span className="spinner"/> Analyzing image...</> : <>✦ &nbsp; Run analysis <span aria-hidden>↗</span></>}</button>
         <p className="input-hint">Images are sent to your configured Flask API for processing. Maximum file size: 10 MB.</p>
       </div>
       <aside className="studio-panel result-panel" aria-live="polite" aria-atomic="true">
-        <div className="panel-header"><div><span className="panel-index">02 / OUTPUT</span><h3>Analysis result</h3></div><span className="panel-status">MODEL OUTPUT</span></div>
+        <div className="panel-header"><div><span className="panel-index">02 / OUTPUT</span><h3>Analysis result</h3></div><span className="panel-status">INFERENCE OUTPUT</span></div>
         {busy ? <div className="result-placeholder"><div className="result-orb loading">◎</div><h4>Analyzing your image</h4><p>The AI model is processing your selected photo.</p></div> : error ? <div className="result-placeholder error-state" role="alert"><div className="result-orb">!</div><h4>Unable to analyze</h4><p>{error}</p><button onClick={() => setError(null)} className="btn btn-quiet">Dismiss</button></div> : result ? <div className="result-content"><div className="prediction-label">PREDICTED EXPRESSION</div><div className="prediction-card"><div className="prediction-orb">{result.emotion.toLowerCase().includes('happy') ? '☺' : result.emotion.toLowerCase().includes('sad') ? '☹' : result.emotion.toLowerCase().includes('angry') ? '☹' : '◎'}</div><EmotionPill emotion={result.emotion}/></div>{confidence !== null && <div className="confidence-area"><div className="confidence-heading"><span>Model confidence</span><strong>{confidence}%</strong></div><div className="confidence-track"><div style={{ width: `${confidence}%` }}/></div><p>The score reflects the model’s confidence in this prediction, not certainty about a person's feelings.</p></div>}<button onClick={reset} className="btn btn-outline reset-btn">Analyze another image ↗</button></div> : <div className="result-placeholder"><div className="result-orb">◇</div><h4>Your result appears here</h4><p>Upload a photo or capture an image, then select “Analyze expression” to see the prediction.</p><div className="waiting-tags"><span>HAPPY</span><span>SAD</span><span>ANGRY</span></div></div>}
-        <div className="result-bottom"><span>ENGINE</span><strong>ViT / PyTorch</strong><span>CLASSIFICATION</span><strong>3 classes</strong></div>
+        <div className="result-bottom"><span>ENGINE</span><strong>Vision Transformer</strong><span>CLASSIFICATION</span><strong>3 classes</strong></div>
       </aside>
     </div>
   </div><canvas ref={canvasRef} hidden/></section>
