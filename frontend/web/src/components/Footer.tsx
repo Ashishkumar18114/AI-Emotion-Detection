@@ -1,0 +1,2 @@
+﻿export function Footer() { return <footer className="footer"><div className="container footer-inner"><div><a href="#home" className="brand"><span className="brand-mark">â—ˆ</span><span>EMOT<span className="brand-accent">IQ</span><small>VISION INTELLIGENCE</small></span></a><p>Exploring facial expression analysis with computer vision.</p></div><div className="footer-side"><span>Built with React Â· Flask Â· PyTorch</span><a href="#home">Back to top â†‘</a></div></div></footer> }
+

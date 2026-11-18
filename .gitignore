@@ -1,0 +1,53 @@
+# ── Python ──────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Egg / dist
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Model files (large — tracked via git-lfs) ───────────────────
+*.pt
+*.pth
+*.h5
+*.pkl
+
+# ── Environment variables ────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Node / Frontend ──────────────────────────────────────────────
+node_modules/
+frontend/web/dist/
+frontend/web/.vite/
+
+# ── IDE ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS ───────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Test artifacts ───────────────────────────────────────────────
+*.jpg
+*.jpeg
+*.png
+# keep the public demo image
+!frontend/web/public/emotion.png
+!frontend/web/public/new_emotion.png
+
+*.apk
