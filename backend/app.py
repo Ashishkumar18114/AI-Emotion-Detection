@@ -100,17 +100,9 @@ def process_camera_frame(frame: np.ndarray):
 # ─── Flask setup ────────────────────────────────────────────────────────
 app = Flask(__name__)
 
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "https://*.vercel.app",
-            "https://mini-project-frontend-liard.vercel.app",
-            "http://localhost:5173",
-            "http://127.0.0.1:5173",
-            "http://localhost:3000"
-        ]
-    }
-})
+# Allow cross-origin requests for this public demo API.
+# No cookies or credentials are used.
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/detect', methods=['POST'])
 def detect_emotion():
