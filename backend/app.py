@@ -27,7 +27,36 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 mtcnn  = MTCNN(keep_all=True, device=DEVICE, thresholds=[0.5, 0.6, 0.7], min_face_size=40)
 
 # Load model
+
+# Download the trained model on first startup if missing.
+from pathlib import Path
+
+model_file = Path(MODEL_PATH)
+model_url = "https://huggingface.co/ashishkmr1811/AI-Emotion-Detection-Model/resolve/main/emotion_vit_model.pt"
+
+if not model_file.exists() or model_file.stat().st_size < 100_000_000:
+    print("Downloading AI model from Hugging Face...", flush=True)
+    temp_file = model_file.with_suffix(".download")
+
+    try:
+        with requests.get(model_url, stream=True, timeout=(20, 120)) as response:
+            response.raise_for_status()
+            with open(temp_file, "wb") as f:
+                for chunk in response.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        f.write(chunk)
+
+        if temp_file.stat().st_size < 100_000_000:
+            raise RuntimeError("Downloaded AI model is incomplete")
+
+        temp_file.replace(model_file)
+        print("AI model downloaded successfully!", flush=True)
+    finally:
+        if temp_file.exists():
+            temp_file.unlink()
+
 model = torch.jit.load(MODEL_PATH, map_location=DEVICE)
+
 model.to(DEVICE).eval()
 
 # Preprocessing
